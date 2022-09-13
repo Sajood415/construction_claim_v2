@@ -1,0 +1,221 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #25A6F7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.button {
+  font-size: 20px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #002F63;
+  color: white;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #002F90;
+}
+
+.navbar {
+  background-color: black;
+  width: 100%;
+  height: 80px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.accountAdd {
+  margin-top: 24px;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.roleButton {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+.sideBar {
+  width: 20%;
+  height: 89%;
+  background: #00244B;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  text-align: center;
+}
+
+.sideBarButtonWrap {
+  padding: 12px;
+  border: 1px solid white;
+  font-size: 16px;
+}
+
+.sideBarButtonWrap:hover {
+  background: #00241A;
+}
+
+.sideBarButton {
+  color: #FFFFFF;
+  text-decoration: none;
+  /* border: 1px solid white;
+  padding: 12px; */
+}
+
+.sideBarButtonWrap:focus {
+  background: #00241A;
+}
+
+.activeButton {
+  background: #00241A;
+}
+
+input[type="text"],
+input[type="password"] {
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  background: #01d28e;
+  border: 1px solid #01d28e;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+input[type="submit"]:hover {
+  background: #6cf0c2;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  color: black;
+  position: absolute;
+  top: 20%;
+  left: 25%;
+}
+
+.formRemove {
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  color: black;
+  position: absolute;
+  top: 20%;
+  left: 64%;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
+}
+
+.formContainer .form .addProject label {
+  font-size: 13px;
+}
+
+.addProject {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1px 58px;
+  margin: -9px;
+}
+
+.buttonWrapper {
+  position: absolute;
+  top: 93px;
+  right: 32px;
+}
+
+.searchForm {
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  color: black;
+  position: fixed;
+  top: 98px;
+  left: 333px;
+}
+
+.serachFormFinalData {
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+  color: black;
+  position: relative;
+  font-size: 17px;
+  top: -260px;
+  left: 194px;
+}
+
+.mainRoleButton {
+  text-decoration: none;
+  padding: 10px 17px;
+  background: #00006F;
+  color: white;
+  margin: 8px;
+  text-align: center;
+}
