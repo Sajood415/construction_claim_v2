@@ -1,19 +1,6 @@
-export const contractAddress = "0xa1727912519b01c70890244b7B6D53F27AE16bE5";
+export const contractAddress = "0x8d668144be663e457492338D2A6A5ad1931255Fd";
 
 export const ABI = [
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "clientAddress",
-				"type": "address"
-			}
-		],
-		"name": "addClient",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
 	{
 		"inputs": [
 			{
@@ -66,42 +53,6 @@ export const ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "consultantAddress",
-				"type": "address"
-			}
-		],
-		"name": "addConsultant",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "contractorAddress",
-				"type": "address"
-			}
-		],
-		"name": "addContractor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "claimNo",
-				"type": "int256"
-			},
-			{
-				"internalType": "string",
-				"name": "projectName",
-				"type": "string"
-			},
-			{
 				"internalType": "uint256",
 				"name": "date",
 				"type": "uint256"
@@ -149,11 +100,6 @@ export const ABI = [
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "int256",
-				"name": "claimNo",
-				"type": "int256"
-			},
 			{
 				"internalType": "uint256",
 				"name": "date",
@@ -218,6 +164,39 @@ export const ABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "claimNo",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "projectName",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "contractorAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "consultantAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "clientAddress",
+				"type": "address"
+			}
+		],
+		"name": "addProject",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "bytes32",
 				"name": "role",
 				"type": "bytes32"
@@ -229,45 +208,6 @@ export const ABI = [
 			}
 		],
 		"name": "grantRole",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "clientAddress",
-				"type": "address"
-			}
-		],
-		"name": "removeClient",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "consultantAddress",
-				"type": "address"
-			}
-		],
-		"name": "removeConsultant",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "contractorAddress",
-				"type": "address"
-			}
-		],
-		"name": "removeContractor",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -460,16 +400,6 @@ export const ABI = [
 		"name": "_costRelatedClaimprojectList",
 		"outputs": [
 			{
-				"internalType": "int256",
-				"name": "_claimNo",
-				"type": "int256"
-			},
-			{
-				"internalType": "string",
-				"name": "_projectName",
-				"type": "string"
-			},
-			{
 				"internalType": "uint256",
 				"name": "_date",
 				"type": "uint256"
@@ -523,16 +453,6 @@ export const ABI = [
 		],
 		"name": "_delayRelatedClaimprojectList",
 		"outputs": [
-			{
-				"internalType": "int256",
-				"name": "_claimNo",
-				"type": "int256"
-			},
-			{
-				"internalType": "string",
-				"name": "_projectName",
-				"type": "string"
-			},
 			{
 				"internalType": "uint256",
 				"name": "_date",
@@ -606,6 +526,45 @@ export const ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "_projects",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_claimNo",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_projectName",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_contractorAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_consultantAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_clientAddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "_reCommentNumber",
 		"outputs": [
@@ -640,45 +599,6 @@ export const ABI = [
 	{
 		"inputs": [],
 		"name": "ADMIN",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "CLIENT",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "CONSULTANT",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "CONTRACTOR",
 		"outputs": [
 			{
 				"internalType": "bytes32",
@@ -740,6 +660,45 @@ export const ABI = [
 				"internalType": "bool",
 				"name": "",
 				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "hasRoleClient",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "hasRoleConsultant",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "hasRoleContractor",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

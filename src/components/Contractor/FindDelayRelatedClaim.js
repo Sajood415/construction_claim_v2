@@ -8,6 +8,7 @@ const FindDelayRelatedClaim = () => {
   const [claimNo, setClaimNo] = useState("");
   const [showData, setShowData] = useState(false);
   const [result, setResult] = useState({});
+  const [projectResult, setProjectResult] = useState({});
 
 
   function handleClaimNo(e) {
@@ -22,14 +23,16 @@ const FindDelayRelatedClaim = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
+    const projectData = await instance.methods._projects(claimNo).call({ from: account })
     const claimData = await instance.methods._delayRelatedClaimprojectList(claimNo).call({ from: account });
     console.log(claimData)
-    if (claimData._causeOfClaim == "") {
+    if (claimData._causeOfClaim === "") {
       setShowData(false);
       alert("No Data Found");
     } else {
       setShowData(true)
       setResult(claimData)
+      setProjectResult(projectData)
     }
     setClaimNo("");
   }
@@ -49,7 +52,8 @@ const FindDelayRelatedClaim = () => {
         {showData && (
           <div className="serachFormFinalData" style={{ marginTop: '360px' }}>
             <h4>Data</h4>
-            <div>Claim no:   {result._claimNo}</div>
+            <div>Claim no:   {projectResult._claimNo}</div>
+            <div>Project Name:   {projectResult._projectName}</div>
             <div>Date:   {result._date}</div>
             <div>Cause of Claim:   {result._causeOfClaim}</div>
             <div>Contract Type:   {result._contractType}</div>

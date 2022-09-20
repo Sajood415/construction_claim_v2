@@ -5,6 +5,7 @@ import { contractAddress, ABI } from '../../config';
 const AddProject = () => {
     const [showDelayRelatedClaim, setShowDelayRelatedClaim] = useState(true);
     const [showCostRelatedClaim, setShowCostRelatedClaim] = useState(false);
+    const [projectData, setProjectData] = useState({});
 
     useEffect(() => {
         getProjectNumber();
@@ -18,7 +19,9 @@ const AddProject = () => {
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
         const claimNum = await instance.methods._projectNumber().call({ from: account })
+        const projectData = await instance.methods._projects(claimNum).call({ from: account })
         setClaimNo(claimNum)
+        setProjectData(projectData)
     }
 
     const getInitialState = () => {
@@ -157,23 +160,39 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, projectName, dateCost, causeOfClaimCost, contractTypeCost, clauseIdCost, clauseTitleCost, claimDescCost, projectCost, claimAmount).send({
-            from: account
-        });
-        if (addCostClaim.status === true) {
-            alert("Claim has been added");
+        const isContractor = await instance.methods.hasRoleContractor().call({ from: account })
+        if (isContractor === account) {
+            const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, projectName, dateCost, causeOfClaimCost, contractTypeCost, clauseIdCost, clauseTitleCost, claimDescCost, projectCost, claimAmount).send({
+                from: account
+            });
+            if (addCostClaim.status === true) {
+                alert("Claim has been added");
+            } else {
+                alert("Error. Check console");
+            }
+            setProjectName("");
+            setDateCost(null);
+            setCauseOfClaimCost(getInitialState);
+            setContractTypeCost(getInitialState);
+            setClauseIdCost(getInitialState);
+            setClauseTitleCost(getInitialState);
+            setClaimDescCost("");
+            setProjectCost("");
+            setClaimAmount("");
         } else {
-            alert("Error. Check console");
+            alert("You are not assigned as Contractor of this project");
+            setClaimNo("");
+            setCauseOfClaim("");
+            setContractType(getInitialState);
+            setClauseId(getInitialState);
+            setClauseTitle(getInitialState);
+            setClaimDesc("");
+            setTotalProjectDuration("");
+            setprojectStartingDate(null);
+            setProjectCompletionDate(null);
+            setDelayInDays("");
+            setRevisedProjectCompletionDate(null);
         }
-        setProjectName("");
-        setDateCost(null);
-        setCauseOfClaimCost(getInitialState);
-        setContractTypeCost(getInitialState);
-        setClauseIdCost(getInitialState);
-        setClauseTitleCost(getInitialState);
-        setClaimDescCost("");
-        setProjectCost("");
-        setClaimAmount("");
     }
 
     const submitDelayData = async (e) => {
@@ -184,26 +203,47 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addDelayClaim = await instance.methods.addDelayRelatedClaim(claimNo, date, causeOfClaim, contracType, clauseId, clauseTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate).send({
-            from: account
-        });
-        if (addDelayClaim.status === true) {
-            alert("Claim has been added");
+        const isContractor = await instance.methods.hasRoleContractor().call({ from: account })
+        console.log("contract: ", isContractor)
+        console.log("Connected", account)
+        console.log("contract: ", typeof(isContractor))
+        console.log("Connected", typeof(account))
+        if (isContractor === account) {
+            const addDelayClaim = await instance.methods.addDelayRelatedClaim(date, causeOfClaim, contracType, clauseId, clauseTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate).send({
+                from: account
+            }).catch(console.log);
+            if (addDelayClaim.status === true) {
+                alert("Claim has been added");
+            } else {
+                alert("Error. Check console");
+            }
+            setClaimNo("");
+            setCauseOfClaim("");
+            setContractType(getInitialState);
+            setClauseId(getInitialState);
+            setClauseTitle(getInitialState);
+            setClaimDesc("");
+            setTotalProjectDuration("");
+            setprojectStartingDate(null);
+            setProjectCompletionDate(null);
+            setDelayInDays("");
+            setRevisedProjectCompletionDate(null);
         } else {
-            alert("Error. Check console");
+            alert("You are not assigned as Contractor of this project");
+            setClaimNo("");
+            setCauseOfClaim("");
+            setContractType(getInitialState);
+            setClauseId(getInitialState);
+            setClauseTitle(getInitialState);
+            setClaimDesc("");
+            setTotalProjectDuration("");
+            setprojectStartingDate(null);
+            setProjectCompletionDate(null);
+            setDelayInDays("");
+            setRevisedProjectCompletionDate(null);
         }
-        setClaimNo("");
-        setCauseOfClaim("");
-        setContractType(getInitialState);
-        setClauseId(getInitialState);
-        setClauseTitle(getInitialState);
-        setClaimDesc("");
-        setTotalProjectDuration("");
-        setprojectStartingDate(null);
-        setProjectCompletionDate(null);
-        setDelayInDays("");
-        setRevisedProjectCompletionDate(null);
     }
+
 
     return (
         <>
@@ -218,10 +258,10 @@ const AddProject = () => {
                             <label>Claim no </label>
                             <input type="number" name="claimNo" required value={claimNo} />
                         </div>
-                        {/* <div className="input-container">
+                        <div className="input-container">
                             <label>Project Name </label>
-                            <input type="text" name="address" required />
-                        </div> */}
+                            <input type="text" name="address" required value={projectData._projectName} />
+                        </div>
                         <div className="input-container">
                             <label>Date </label>
                             <input type="date" name="date" required value={date} format="DD/MM/YYYY"
