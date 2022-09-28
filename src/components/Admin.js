@@ -20,7 +20,7 @@ const Admin = () => {
               </nav>
             </header>
             <div className="sideBar">
-              <div className={['sideBarButtonWrap', 'activeButton'].join(' ')} tabIndex="1">Add/Remove Project</div>
+              <div className={['sideBarButtonWrap', 'activeButton'].join(' ')} tabIndex="1">Add Project</div>
             </div>
           </>
           <AddProject />

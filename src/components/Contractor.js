@@ -51,7 +51,7 @@ const Contractor = () => {
               <div className={['sideBarButtonWrap', showCostRelatedClaim ? 'activeButton' : ''].join(' ')} tabIndex="3" onClick={showCostRelatedClaimField}>Find Cost Related Claim</div>
             </div>
           </>
-        {showAddForm && (<AddProject />)}
+        {showAddForm && (<AddProject DelayRelatedClaim={showDelayRelatedClaim} CostRelatedClaim={showCostRelatedClaim} />)}
         {showDelayRelatedClaim && (<FindDelayRelatedClaim />)}
         {showCostRelatedClaim && (<FindCostRelatedClaim />)}
       </div>

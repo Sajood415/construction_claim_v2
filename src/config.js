@@ -1,4 +1,4 @@
-export const contractAddress = "0x8d668144be663e457492338D2A6A5ad1931255Fd";
+export const contractAddress = "0x37276c0052f1e82319AF67Cdf1e4Ab6474ED9906";
 
 export const ABI = [
 	{
@@ -352,6 +352,11 @@ export const ABI = [
 		"name": "_clientCommentsCost",
 		"outputs": [
 			{
+				"internalType": "bool",
+				"name": "_sett",
+				"type": "bool"
+			},
+			{
 				"internalType": "string",
 				"name": "_awardedMoney",
 				"type": "string"
@@ -370,6 +375,11 @@ export const ABI = [
 		],
 		"name": "_clientCommentsDelay",
 		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_sett",
+				"type": "bool"
+			},
 			{
 				"internalType": "string",
 				"name": "_grantedExtension",
@@ -399,6 +409,11 @@ export const ABI = [
 		],
 		"name": "_costRelatedClaimprojectList",
 		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_sett",
+				"type": "bool"
+			},
 			{
 				"internalType": "uint256",
 				"name": "_date",
@@ -453,6 +468,11 @@ export const ABI = [
 		],
 		"name": "_delayRelatedClaimprojectList",
 		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_sett",
+				"type": "bool"
+			},
 			{
 				"internalType": "uint256",
 				"name": "_date",
@@ -514,6 +534,19 @@ export const ABI = [
 	},
 	{
 		"inputs": [],
+		"name": "_initiatedProjectNumber",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "_projectNumber",
 		"outputs": [
 			{
@@ -535,6 +568,11 @@ export const ABI = [
 		],
 		"name": "_projects",
 		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_sett",
+				"type": "bool"
+			},
 			{
 				"internalType": "uint256",
 				"name": "_claimNo",
@@ -588,6 +626,11 @@ export const ABI = [
 		"name": "_reComments",
 		"outputs": [
 			{
+				"internalType": "bool",
+				"name": "_sett",
+				"type": "bool"
+			},
+			{
 				"internalType": "string",
 				"name": "_comment",
 				"type": "string"
@@ -604,6 +647,96 @@ export const ABI = [
 				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "checkCommentCostData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "checkCommentData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "checkCommentDelayData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "checkCostData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectNo",
+				"type": "uint256"
+			}
+		],
+		"name": "checkDelayData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectNo",
+				"type": "uint256"
+			}
+		],
+		"name": "checkProjectData",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -666,7 +799,13 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectNo",
+				"type": "uint256"
+			}
+		],
 		"name": "hasRoleClient",
 		"outputs": [
 			{
@@ -679,7 +818,13 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectNo",
+				"type": "uint256"
+			}
+		],
 		"name": "hasRoleConsultant",
 		"outputs": [
 			{
@@ -692,7 +837,13 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectNo",
+				"type": "uint256"
+			}
+		],
 		"name": "hasRoleContractor",
 		"outputs": [
 			{

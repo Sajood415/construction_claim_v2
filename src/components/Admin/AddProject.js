@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../../config';
 
@@ -9,9 +9,9 @@ const AddProject = () => {
     const [consultantAddress, setConsultantAddress] = useState("");
     const [clientAddress, setClientAddress] = useState("");
 
-    function handleClaimNo(e) {
-        setClaimNo(e.target.value);
-    }
+    useEffect(() => {
+        getCurrentProjectData();
+    }, [claimNo]);
 
     function handleProjectName(e) {
         setProjectName(e.target.value);
@@ -27,6 +27,18 @@ const AddProject = () => {
 
     function handleClientAddress(e) {
         setClientAddress(e.target.value);
+    }
+
+    const getCurrentProjectData = async () => {
+        var web3 = window.web3;
+        web3 = new Web3(web3.currentProvider);
+        const instance = new web3.eth.Contract(ABI, contractAddress);
+        console.log(instance)
+        const userAccount = await web3.eth.getAccounts();
+        const account = userAccount[0];
+        const claimOnGoing = await instance.methods._projectNumber().call({ from: account })
+        console.log(claimOnGoing)
+        setClaimNo(claimOnGoing);
     }
 
     const addProject = async (e) => {
@@ -52,7 +64,7 @@ const AddProject = () => {
                     <form className='addProject'>
                         <div className="input-container">
                             <label>Claim No </label>
-                            <input type="number" name="claimNo" required value={claimNo} onChange={handleClaimNo} />
+                            <input type="number" name="claimNo" required value={claimNo} />
                         </div>
                         <div className="input-container">
                             <label>Project Name </label>
@@ -71,7 +83,7 @@ const AddProject = () => {
                             <input type="text" name="clientAddress" required value={clientAddress} onChange={handleClientAddress} />
                         </div>
                         <div className="button-container">
-                            <input type="submit" value="Add" onClick={addProject}/>
+                            <input type="submit" value="Add" onClick={addProject} />
                         </div>
                     </form>
                 </div>
