@@ -7,9 +7,13 @@ import AddCommentCostClaim from "./Consultant/AddCommentCostClaim";
 import AddCommentDelayClaim from "./Consultant/AddCommentDelayClaim";
 
 const Consultant = () => {
-  const [isConsultant, setConsultant] = useState(false);
-  const [showAddCommentDelay, setShowAddCommentDelay] = useState(true);
+  const [showSideBar, setShowSideBar] = useState(false);
+  const [showAddCommentDelay, setShowAddCommentDelay] = useState(false);
   const [showAddCommentCost, setShowAddCommentCost] = useState(false);
+
+  useEffect(() => {
+    checkConsultantRole();
+  }, [showAddCommentDelay, showAddCommentCost])
 
   function handleShowAddCommentDelay() {
     setShowAddCommentDelay(true);
@@ -24,24 +28,34 @@ const Consultant = () => {
   const location = useLocation();
   const accountAddress = location.state.accountAddress
 
-  useEffect(() => {
-    checkConsultantRole();
-  })
-
   const checkConsultantRole = async () => {
     var web3 = window.web3;
     web3 = new Web3(web3.currentProvider);
     const instance = new web3.eth.Contract(ABI, contractAddress);
-    const consultantHash = web3.utils.soliditySha3('CONSULTANT');
-    console.log(consultantHash)
-    const isConsultant = await instance.methods.hasRole(consultantHash, accountAddress).call();
-    setConsultant(isConsultant);
+    const userAccount = await web3.eth.getAccounts();
+    const account = userAccount[0];
+    const projectInitiatedNo = await instance.methods._reCommentNumber().call({ from: account });
+    const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
+    console.log("data entered from admin", data)
+    const isConsultant = await instance.methods.hasRoleConsultant(projectInitiatedNo).call({ from: account })
+    console.log(isConsultant, account)
+    if (isConsultant == account) {
+      if (showAddCommentCost) {
+        setShowAddCommentDelay(false)
+        setShowSideBar(true)
+        setShowAddCommentCost(true)
+      } else {
+        setShowAddCommentDelay(true)
+        setShowSideBar(true)
+        setShowAddCommentCost(false)
+      }
+    }
   }
 
   return (
     <>
       <div className="App-header">
-        {isConsultant && (
+        {showSideBar && (
           <>
             <header>
               <nav className="navbar">
@@ -57,11 +71,8 @@ const Consultant = () => {
             </div>
           </>
         )}
-        {isConsultant && showAddCommentDelay && (<AddCommentDelayClaim />)}
-        {isConsultant && showAddCommentCost && (<AddCommentCostClaim />)}
-        {!isConsultant && (
-          <div>You are not Consultant</div>
-        )}
+        {showAddCommentDelay && (<AddCommentDelayClaim />)}
+        {showAddCommentCost && (<AddCommentCostClaim />)}
       </div>
     </>
   )

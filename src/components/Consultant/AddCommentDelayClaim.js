@@ -5,10 +5,12 @@ import { contractAddress, ABI } from '../../config';
 const AddCommentDelayClaim = () => {
     const [claimNo, setClaimNo] = useState("");
     const [showData, setShowData] = useState(false);
-    const [result, setResult] = useState({});
+    const [projectData, setProjectData] = useState({});
+    const [result, setClaimData] = useState({});
     const [comment, setComment] = useState("");
     const [commentAdded, setCommentAdded] = useState("")
     const [showAddCommentButton, setShowAddCommentButton] = useState(false);
+
 
     function handleClaimNo(e) {
         e.preventDefault();
@@ -27,21 +29,24 @@ const AddCommentDelayClaim = () => {
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
         const claimData = await instance.methods._delayRelatedClaimprojectList(claimNo).call({ from: account });
+        const projectData = await instance.methods._projects(claimNo).call({ from: account })
         const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
-        console.log(commentsData)
-        console.log(claimData)
-        if (claimData._causeOfClaim == "") {
+        console.log("comment data: ", commentsData)
+        console.log("claim data", claimData)
+        console.log("project data", projectData)
+
+        if (claimData._sett == false) {
             setShowData(false);
             alert("No Data Found");
         } else {
-            setShowData(true)
-            setResult(claimData)
-            setComment(commentsData)
+            setShowData(true);
+            setClaimData(claimData); // claim data
+            setComment(commentsData._comment); // if comment so set comment data
+            setProjectData(projectData); // name and claim no
         }
-        if (commentsData == "" || commentsData == undefined) {
+        if (commentsData._sett == false) {
             setShowAddCommentButton(true);
         }
-        setClaimNo("");
     }
 
     const addComment = async (e) => {
@@ -57,9 +62,9 @@ const AddCommentDelayClaim = () => {
             setShowAddCommentButton(false);
             window.location.reload();
         }
-        const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
-        setComment(commentsData)
-        console.log("After being added", commentsData)
+        // const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
+        // setComment(commentsData)
+        // console.log("After being added", commentsData)
     }
 
     return (
@@ -78,7 +83,8 @@ const AddCommentDelayClaim = () => {
                 {showData && (
                     <div className="serachFormFinalData" style={{ marginTop: '360px' }}>
                         <h4>Data</h4>
-                        <div>Claim no:   {result._claimNo}</div>
+                        <div>Claim no:   {projectData._claimNo}</div>
+                        <div>Project Name:   {projectData._projectName}</div>
                         <div>Date:   {result._date}</div>
                         <div>Cause of Claim:   {result._causeOfClaim}</div>
                         <div>Contract Type:   {result._contractType}</div>
@@ -95,7 +101,8 @@ const AddCommentDelayClaim = () => {
                                 <>
                                     <input type="text" value={commentAdded} onChange={handleCommentAdded} />
                                     <div className="button-container">
-                                        <input type="submit" value="Add" onClick={addComment} />
+                                        <input type="submit" value="Add" onClick={addComment}
+                                        />
                                     </div>
                                 </>
                             </div>)}
