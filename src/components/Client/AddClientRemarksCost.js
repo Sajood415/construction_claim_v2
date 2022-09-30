@@ -6,7 +6,8 @@ const AddClientRemarksCost = () => {
   const [claimNo, setClaimNo] = useState("");
   const [showData, setShowData] = useState(false);
   const [result, setResult] = useState({});
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState({});
+  const [projectData, setProjectData] = useState({});
   const [clientRemarks, setClientRemarks] = useState({})
   const [showAddRemarksButton, setShowAddRemarksButton] = useState(false)
   const [awardedMoney, setAwardedMoney] = useState("");
@@ -27,13 +28,14 @@ const AddClientRemarksCost = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
+    const projectData = await instance.methods._projects(claimNo).call({ from: account })
     const claimData = await instance.methods._costRelatedClaimprojectList(claimNo).call({ from: account });
     const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
     const remarksByclient = await instance.methods._clientCommentsCost(claimNo).call({ from: account });
     console.log(commentsData)
     console.log(claimData)
     console.log(remarksByclient)
-    if (claimData._causeOfClaim == "") {
+    if (claimData._sett == false && commentsData._sett == false) {
       setShowData(false);
       alert("No Data Found");
     } else {
@@ -41,8 +43,9 @@ const AddClientRemarksCost = () => {
       setResult(claimData)
       setComment(commentsData)
       setClientRemarks(remarksByclient)
+      setProjectData(projectData)
     }
-    if (remarksByclient == "") {
+    if (remarksByclient._sett == false) {
       setShowAddRemarksButton(true);
     }
     setClaimNo("");
@@ -91,7 +94,7 @@ const AddClientRemarksCost = () => {
             <div>Claim Description:   {result._claimDesc}</div>
             <div>Total Project Cost:   {result._totalProjectCost}</div>
             <div>Claim Amount:   {result._claimAmount}</div>
-            <div>Comment by Consultant: {comment}</div>
+            <div>Comment by Consultant: {comment._comment}</div>
             {!showAddRemarksButton && (
               <>
                 <div>Awarded Money: {clientRemarks}</div>

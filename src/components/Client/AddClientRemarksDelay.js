@@ -5,8 +5,9 @@ import { contractAddress, ABI } from '../../config';
 const AddClientRemarksDelay = () => {
   const [claimNo, setClaimNo] = useState("");
   const [showData, setShowData] = useState(false);
+  const [projectData, setProjectData] = useState({});
   const [result, setResult] = useState({});
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState({});
   const [clientRemarks, setClientRemarks] = useState({})
   const [showAddRemarksButton, setShowAddRemarksButton] = useState(false)
   const [grantedExtension, setGrantedExtension] = useState("");
@@ -38,13 +39,17 @@ const AddClientRemarksDelay = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
+    const projectData = await instance.methods._projects(claimNo).call({ from: account })
     const claimData = await instance.methods._delayRelatedClaimprojectList(claimNo).call({ from: account });
     const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
     const remarksByclient = await instance.methods._clientCommentsDelay(claimNo).call({ from: account });
-    console.log(commentsData)
-    console.log(claimData)
+    console.log(projectData) // admin data
+    console.log(claimData) // contractor
+    console.log(commentsData) // consultant
+
     console.log(remarksByclient)
-    if (claimData._causeOfClaim == "") {
+
+    if (claimData._sett == false && commentsData._sett == false) {
       setShowData(false);
       alert("No Data Found");
     } else {
@@ -52,11 +57,11 @@ const AddClientRemarksDelay = () => {
       setResult(claimData)
       setComment(commentsData)
       setClientRemarks(remarksByclient)
+      setProjectData(projectData)
     }
-    if (remarksByclient._grantedExtension == "") {
+    if (remarksByclient._sett == false) {
       setShowAddRemarksButton(true);
     } 
-    setClaimNo("");
   }
 
   const submitRemarks = async (e) => {
@@ -74,8 +79,6 @@ const AddClientRemarksDelay = () => {
     } else {
       alert("Error has occured");
     }
-
-
   }
 
   return (
@@ -94,7 +97,8 @@ const AddClientRemarksDelay = () => {
         {showData && (
           <div className="serachFormFinalData" style={{ marginTop: '360px' }}>
             <h4>Data</h4>
-            <div>Claim no:   {result._claimNo}</div>
+            <div>Claim No:   {projectData._claimNo}</div>
+            <div>Project Name:   {projectData._projectName}</div>
             <div>Date:   {result._date}</div>
             <div>Cause of Claim:   {result._causeOfClaim}</div>
             <div>Contract Type:   {result._contractType}</div>
@@ -106,7 +110,7 @@ const AddClientRemarksDelay = () => {
             <div>Project Completion Date:   {result._projectCompletetionDate}</div>
             <div>Delay in days:   {result._delayInDays}</div>
             <div>Revised Project Completion Date:   {result._revisedProjectCompletionDate}</div>
-            <div>Comment by Consultant: {comment}</div>
+            <div>Comment by Consultant: {comment._comment}</div>
             {!showAddRemarksButton && (
               <>
                 <div>Granted Extension: {clientRemarks._grantedExtension}</div>

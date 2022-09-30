@@ -7,9 +7,13 @@ import AddClientRemarksCost from "./Client/AddClientRemarksCost";
 import AddClientRemarksDelay from "./Client/AddClientRemarksDelay";
 
 const Client = () => {
-  const [isClient, setClient] = useState(false);
-  const [showAddRemarksDelay, setShowAddRemarksDelay] = useState(true);
+  const [showSideBar, setShowSideBar] = useState(false);
+  const [showAddRemarksDelay, setShowAddRemarksDelay] = useState(false);
   const [showAddRemarksCost, setShowAddRemarksCost] = useState(false);
+
+  useEffect(() => {
+
+  }, []);
 
   function handleShowAddRemarksDelay() {
     setShowAddRemarksDelay(true);
@@ -32,16 +36,29 @@ const Client = () => {
     var web3 = window.web3;
     web3 = new Web3(web3.currentProvider);
     const instance = new web3.eth.Contract(ABI, contractAddress);
-    const clientHash = web3.utils.soliditySha3('CLIENT');
-    console.log(clientHash)
-    const isClient = await instance.methods.hasRole(clientHash, accountAddress).call();
-    setClient(isClient);
+    const userAccount = await web3.eth.getAccounts();
+    const account = userAccount[0];
+    const projectInitiatedNo = await instance.methods._clientCommentNumber().call({ from: account });
+    const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
+    console.log("data entered from admin", data)
+    const isClient = await instance.methods.hasRoleClient(projectInitiatedNo).call({ from: account })
+    if (isClient == account) {
+      if (showAddRemarksCost) {
+        setShowAddRemarksDelay(false)
+        setShowSideBar(true)
+        setShowAddRemarksCost(true)
+      } else {
+        setShowAddRemarksDelay(true)
+        setShowSideBar(true)
+        setShowAddRemarksCost(false)
+      }
+    }
   }
 
   return (
     <>
       <div className="App-header">
-        {isClient && (
+        {showSideBar && (
           <>
             <header>
               <nav className="navbar">
@@ -57,11 +74,8 @@ const Client = () => {
             </div>
           </>
         )}
-        {isClient && showAddRemarksDelay && (<AddClientRemarksDelay />)}
-        {isClient && showAddRemarksCost && (<AddClientRemarksCost />)}
-        {!isClient && (
-          <div>You are not Client</div>
-        )}
+        {showAddRemarksDelay && (<AddClientRemarksDelay />)}
+        {showAddRemarksCost && (<AddClientRemarksCost />)}
       </div>
     </>
   )
