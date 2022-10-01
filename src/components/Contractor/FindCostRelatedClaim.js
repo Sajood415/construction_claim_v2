@@ -37,6 +37,19 @@ const FindCostRelatedClaim = () => {
     }
     setClaimNo("");
   }
+
+  const date = (date) => {
+    const unixTime = date * 1000
+    const format = {
+      weekday: 'long',
+      day: 'numeric',
+      month: "2-digit",
+      year: "numeric"
+    }
+    return (new Date(unixTime).toLocaleString('en-US', format))
+  }
+
+
   return (
     <div className='findProject'>
       <div className="formContainer">
@@ -55,7 +68,7 @@ const FindCostRelatedClaim = () => {
             <h4>Data</h4>
             <h5>Claim No: {projectResult._claimNo}</h5>
             <h5>Project Name: {projectResult._projectName}</h5>
-            <div>Date:   {result._date}</div>
+            <div>Date:   {date(result._date)}</div>
             <div>Cause of Claim:   {result._causeOfClaim}</div>
             <div>Contract Type:   {result._contractType}</div>
             <div>Clause Id:   {result._clauseId}</div>

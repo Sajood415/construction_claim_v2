@@ -68,6 +68,17 @@ const AddClientRemarksCost = () => {
     }
   }
 
+  const date = (date) => {
+    const unixTime = date * 1000
+    const format = {
+      weekday: 'long',
+      day: 'numeric',
+      month: "2-digit",
+      year: "numeric"
+    }
+    return (new Date(unixTime).toLocaleString('en-US', format))
+  }
+
   return (
     <div className='findProject'>
       <div className="formContainer">
@@ -85,7 +96,7 @@ const AddClientRemarksCost = () => {
           <div className="serachFormFinalData" style={{ marginTop: '360px' }}>
             <h4>Data</h4>
             <div>Claim no:   {result._claimNo}</div>
-            <div>Date:   {result._date}</div>
+            <div>Date:   {date(result._date)}</div>
             <div>Project Name:   {result._projectName}</div>
             <div>Cause of Claim:   {result._causeOfClaim}</div>
             <div>Contract Type:   {result._contractType}</div>

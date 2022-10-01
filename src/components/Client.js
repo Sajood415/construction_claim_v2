@@ -52,6 +52,8 @@ const Client = () => {
         setShowSideBar(true)
         setShowAddRemarksCost(false)
       }
+    } else {
+      setShowSideBar(true)
     }
   }
 

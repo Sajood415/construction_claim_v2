@@ -36,6 +36,19 @@ const FindDelayRelatedClaim = () => {
     }
     setClaimNo("");
   }
+
+  const date = (date) => {
+    const unixTime = date * 1000
+    const format = {
+      weekday: 'long',
+      day: 'numeric',
+      month: "2-digit",
+      year: "numeric"
+    }
+    return (new Date(unixTime).toLocaleString('en-US', format))
+  }
+
+ 
   return (
     <div className='findProject'>
       <div className="formContainer">
@@ -54,17 +67,17 @@ const FindDelayRelatedClaim = () => {
             <h4>Data</h4>
             <div>Claim no:   {projectResult._claimNo}</div>
             <div>Project Name:   {projectResult._projectName}</div>
-            <div>Date:   {result._date}</div>
+            <div>Date:   {date(result._date)}</div>
             <div>Cause of Claim:   {result._causeOfClaim}</div>
             <div>Contract Type:   {result._contractType}</div>
             <div>Clause Id:   {result._clauseId}</div>
             <div>Clause Title:   {result._clauseTitle}</div>
             <div>Claim Description:   {result._claimDesc}</div>
             <div>Total Poject Duration:   {result._totalProjectDuration}</div>
-            <div>Project Starting Date:   {result._projectStartingDate}</div>
-            <div>Project Completion Date:   {result._projectCompletetionDate}</div>
+            <div>Project Starting Date:   {date(result._projectStartingDate)}</div>
+            <div>Project Completion Date:   {date(result._projectCompletetionDate)}</div>
             <div>Delay in days:   {result._delayInDays}</div>
-            <div>Revised Project Completion Date:   {result._revisedProjectCompletionDate}</div>
+            <div>Revised Project Completion Date:   {date(result._revisedProjectCompletionDate)}</div>
           </div>
         )}
       </div>

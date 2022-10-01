@@ -49,6 +49,8 @@ const Consultant = () => {
         setShowSideBar(true)
         setShowAddCommentCost(false)
       }
+    } else {
+      setShowSideBar(true)
     }
   }
 

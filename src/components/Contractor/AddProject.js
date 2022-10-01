@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../../config';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
 
 const AddProject = () => {
-    const [showData, setShowData] = useState(true);
-    const [claimNo, setClaimNo] = useState("");
-    const [showDelayRelatedClaim, setShowDelayRelatedClaim] = useState(true);
+    const [showData, setShowData] = useState(false);
+    const [showDelayRelatedClaim, setShowDelayRelatedClaim] = useState(false);
     const [showCostRelatedClaim, setShowCostRelatedClaim] = useState(false);
+
     const [projectData, setProjectData] = useState({});
+    const [claimNo, setClaimNo] = useState("");
 
     useEffect(() => {
         getProjectNumber();
@@ -24,24 +29,14 @@ const AddProject = () => {
         console.log("project intiated", projectInitiatedNo)
         const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
         console.log("data entered from admin", data)
-        const isContractor = await instance.methods.hasRoleContractor(projectInitiatedNo).call({ from: account })
-        if (data) {
-            if (isContractor === account) {
-                const projectData = await instance.methods._projects(projectInitiatedNo).call({ from: account })
-                setClaimNo(projectInitiatedNo)
-                setProjectData(projectData)
-                setShowData(true);
-                setShowCostRelatedClaim(false);
-                setShowDelayRelatedClaim(true);
-            } else {
-                setShowData(false);
-                setShowCostRelatedClaim(false);
-                setShowDelayRelatedClaim(false);
-            }
+        const projectData = await instance.methods._projects(projectInitiatedNo).call({ from: account })
+        if(data) {
+            setClaimNo(projectInitiatedNo)
+            setProjectData(projectData)
+            setShowData(true);
         } else {
-            setShowCostRelatedClaim(false);
-            setShowData(false);
-            setShowDelayRelatedClaim(false);
+            setShowData(false)
+            alert('No Project Initiated')
         }
     }
 
@@ -59,11 +54,6 @@ const AddProject = () => {
     const [claimDescCost, setClaimDescCost] = useState("");
     const [projectCost, setProjectCost] = useState("");
     const [claimAmount, setClaimAmount] = useState("");
-
-    function handleDateCost(e) {
-        const date = new Date(e.target.value).getTime() / 1000
-        setDateCost(date);
-    }
 
     function handleCauseOfClaimCost(e) {
         setCauseOfClaimCost(e.target.value);
@@ -107,12 +97,6 @@ const AddProject = () => {
     const [delayInDays, setDelayInDays] = useState("");
     const [revisedProjectCompletionDate, setRevisedProjectCompletionDate] = useState(null);
 
-
-    const handleDate = (e) => {
-        const date = new Date(e.target.value).getTime() / 1000
-        setDate(date);
-    };
-
     const handleCauseOfClaim = (e) => {
         setCauseOfClaim(e.target.value);
     };
@@ -137,23 +121,8 @@ const AddProject = () => {
         setTotalProjectDuration(e.target.value);
     };
 
-    const handleProjectStartingDate = (e) => {
-        const date = new Date(e.target.value).getTime() / 1000
-        setprojectStartingDate(date);
-    };
-
-    const handleProjectCompletionDate = (e) => {
-        const date = new Date(e.target.value).getTime() / 1000
-        setProjectCompletionDate(date);
-    };
-
     const handleDelayInDays = (e) => {
         setDelayInDays(e.target.value);
-    };
-
-    const handleRevisedProjectCompletionDate = (e) => {
-        const date = new Date(e.target.value).getTime() / 1000
-        setRevisedProjectCompletionDate(date);
     };
 
 
@@ -175,35 +144,23 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const isContractor = await instance.methods.hasRoleContractor(claimNo).call({ from: account })
-        if (isContractor === account) {
-            const addCostClaim = await instance.methods.addCostRelatedClaim(dateCost, causeOfClaimCost, contractTypeCost, clauseIdCost, clauseTitleCost, claimDescCost, projectCost, claimAmount).send({
-                from: account
-            });
-            if (addCostClaim.status === true) {
-                alert("Claim has been added");
-            } else {
-                alert("Error. Check console");
-            }
-            setDateCost(null);
-            setCauseOfClaimCost(getInitialState);
-            setContractTypeCost(getInitialState);
-            setClauseIdCost(getInitialState);
-            setClauseTitleCost(getInitialState);
-            setClaimDescCost("");
-            setProjectCost("");
-            setClaimAmount("");
+        const addCostClaim = await instance.methods.addCostRelatedClaim(dateCost, causeOfClaimCost, contractTypeCost, clauseIdCost, clauseTitleCost, claimDescCost, projectCost, claimAmount).send({
+            from: account
+        });
+        if (addCostClaim.status === true) {
+            alert("Claim has been added");
         } else {
-            alert("You are not assigned as Contractor of this project");
-            setDateCost(null);
-            setCauseOfClaimCost(getInitialState);
-            setContractTypeCost(getInitialState);
-            setClauseIdCost(getInitialState);
-            setClauseTitleCost(getInitialState);
-            setClaimDescCost("");
-            setProjectCost("");
-            setClaimAmount("");
+            alert("Error. Check console");
         }
+        setDateCost(null);
+        setCauseOfClaimCost(getInitialState);
+        setContractTypeCost(getInitialState);
+        setClauseIdCost(getInitialState);
+        setClauseTitleCost(getInitialState);
+        setClaimDescCost("");
+        setProjectCost("");
+        setClaimAmount("");
+
     }
 
     const submitDelayData = async (e) => {
@@ -214,41 +171,25 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const isContractor = await instance.methods.hasRoleContractor(claimNo).call({ from: account })
-        if (isContractor === account) {
-            const addDelayClaim = await instance.methods.addDelayRelatedClaim(date, causeOfClaim, contracType, clauseId, clauseTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate).send({
-                from: account
-            }).catch(console.log);
-            if (addDelayClaim.status === true) {
-                alert("Claim has been added");
-            } else {
-                alert("Error. Check console");
-            }
-            setDate(null)
-            setCauseOfClaim("");
-            setContractType(getInitialState);
-            setClauseId(getInitialState);
-            setClauseTitle(getInitialState);
-            setClaimDesc("");
-            setTotalProjectDuration("");
-            setprojectStartingDate(null);
-            setProjectCompletionDate(null);
-            setDelayInDays("");
-            setRevisedProjectCompletionDate(null);
+        const addDelayClaim = await instance.methods.addDelayRelatedClaim(date, causeOfClaim, contracType, clauseId, clauseTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate).send({
+            from: account
+        }).catch(console.log);
+        if (addDelayClaim.status === true) {
+            alert("Claim has been added");
         } else {
-            alert("You are not assigned as Contractor of this project");
-            setDate(null)
-            setCauseOfClaim("");
-            setContractType(getInitialState);
-            setClauseId(getInitialState);
-            setClauseTitle(getInitialState);
-            setClaimDesc("");
-            setTotalProjectDuration("");
-            setprojectStartingDate(null);
-            setProjectCompletionDate(null);
-            setDelayInDays("");
-            setRevisedProjectCompletionDate(null);
+            alert("Error. Check console");
         }
+        setDate(null)
+        setCauseOfClaim("");
+        setContractType(getInitialState);
+        setClauseId(getInitialState);
+        setClauseTitle(getInitialState);
+        setClaimDesc("");
+        setTotalProjectDuration("");
+        setprojectStartingDate(null);
+        setProjectCompletionDate(null);
+        setDelayInDays("");
+        setRevisedProjectCompletionDate(null);
     }
 
 
@@ -259,7 +200,7 @@ const AddProject = () => {
                 <div className={['sideBarButtonWrap', showCostRelatedClaim ? 'activeButton' : ''].join(' ')} onClick={selectCostRelated}>Cost Related Claim</div>
             </div>)}
             {showDelayRelatedClaim && (<div className="formContainer">
-                <div className="form">
+                <div className="form" style={{ top: '95px' }}>
                     <form className='addProject'>
                         <div className="input-container">
                             <label>Claim no </label>
@@ -271,8 +212,10 @@ const AddProject = () => {
                         </div>
                         <div className="input-container">
                             <label>Date </label>
-                            <input type="date" name="date" required value={date} format="DD/MM/YYYY"
-                                onChange={handleDate} />
+                            <DatePicker selected={date} onChange={date => {
+                                var full_date = date.getTime()
+                                setDate(full_date)
+                            }} showYearDropdown />
                         </div>
                         <div className="input-container">
                             <label>Cause of Claim </label>
@@ -312,11 +255,17 @@ const AddProject = () => {
                         </div>
                         <div className="input-container">
                             <label>Project Starting Date </label>
-                            <input type="date" name="projectStaringDate" required onChange={handleProjectStartingDate} value={projectStartingDate} />
+                            <DatePicker selected={projectStartingDate} onChange={date => {
+                                var full_date = date.getTime()
+                                setprojectStartingDate(full_date)
+                            }} showYearDropdown />
                         </div>
                         <div className="input-container">
                             <label>Project Completion Date </label>
-                            <input type="date" name="projectCompetionDate" required onChange={handleProjectCompletionDate} value={projectCompletionDate} />
+                            <DatePicker selected={projectCompletionDate} onChange={date => {
+                                var full_date = date.getTime()
+                                setProjectCompletionDate(full_date)
+                            }} showYearDropdown />
                         </div>
                         <div className="input-container">
                             <label>Delay in Days </label>
@@ -324,7 +273,10 @@ const AddProject = () => {
                         </div>
                         <div className="input-container">
                             <label>Revised Project Completion Date </label>
-                            <input type="date" name="address" required onChange={handleRevisedProjectCompletionDate} value={revisedProjectCompletionDate} />
+                            <DatePicker selected={revisedProjectCompletionDate} onChange={date => {
+                                var full_date = date.getTime()
+                                setRevisedProjectCompletionDate(full_date)
+                            }} showYearDropdown />
                         </div>
                         <div className="button-container">
                             <input type="submit" value="Add" onClick={submitDelayData} />
@@ -345,7 +297,10 @@ const AddProject = () => {
                         </div>
                         <div className="input-container">
                             <label>Date </label>
-                            <input type="date" name="date" value={dateCost} onChange={handleDateCost} />
+                            <DatePicker selected={dateCost} onChange={date => {
+                                var full_date = date.getTime()
+                                setDateCost(full_date)
+                            }} showYearDropdown />
                         </div>
                         <div className="input-container">
                             <label>Cause of Claim </label>
@@ -393,10 +348,6 @@ const AddProject = () => {
                     </form>
                 </div>
             </div>)}
-
-            {!showData && !showCostRelatedClaim && !showCostRelatedClaim && (
-                <div>You are not Contractor</div>
-            )}
         </>
     )
 }
