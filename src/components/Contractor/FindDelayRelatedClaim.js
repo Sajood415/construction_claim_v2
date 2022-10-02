@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../../config';
-
+import { Loader } from '../../Loader';
 
 
 const FindDelayRelatedClaim = () => {
+  const [loading, setLoading] = useState(false);
   const [claimNo, setClaimNo] = useState("");
   const [showData, setShowData] = useState(false);
+  const [commentsData, setCommentsData] = useState({});
   const [result, setResult] = useState({});
   const [projectResult, setProjectResult] = useState({});
+  const [remarksByclient, setRemarksByclient] = useState({});
+
 
 
   function handleClaimNo(e) {
@@ -18,6 +22,7 @@ const FindDelayRelatedClaim = () => {
 
   const searchClaim = async (e) => {
     e.preventDefault();
+    setLoading(true)
     var web3 = window.web3;
     web3 = new Web3(web3.currentProvider);
     const instance = new web3.eth.Contract(ABI, contractAddress);
@@ -25,6 +30,10 @@ const FindDelayRelatedClaim = () => {
     const account = userAccount[0];
     const projectData = await instance.methods._projects(claimNo).call({ from: account })
     const claimData = await instance.methods._delayRelatedClaimprojectList(claimNo).call({ from: account });
+    const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
+    const remarksByclient = await instance.methods._clientCommentsDelay(claimNo).call({ from: account });
+
+
     console.log(claimData)
     if (claimData._causeOfClaim === "") {
       setShowData(false);
@@ -33,23 +42,23 @@ const FindDelayRelatedClaim = () => {
       setShowData(true)
       setResult(claimData)
       setProjectResult(projectData)
+      setCommentsData(commentsData)
+      setRemarksByclient(remarksByclient);
     }
     setClaimNo("");
+    setLoading(false)
   }
 
   const date = (date) => {
-    const unixTime = date * 1000
-    const format = {
-      weekday: 'long',
-      day: 'numeric',
-      month: "2-digit",
-      year: "numeric"
-    }
-    return (new Date(unixTime).toLocaleString('en-US', format))
+    var d = new Date(parseInt(date, 10));
+    var ds = d.toString('MM/dd/yy HH:mm:ss').substring(0, 15);
+    return ds
   }
 
- 
+
   return (
+    <>
+          {loading && <Loader />}
     <div className='findProject'>
       <div className="formContainer">
         <div className="searchForm">
@@ -70,18 +79,23 @@ const FindDelayRelatedClaim = () => {
             <div>Date:   {date(result._date)}</div>
             <div>Cause of Claim:   {result._causeOfClaim}</div>
             <div>Contract Type:   {result._contractType}</div>
-            <div>Clause Id:   {result._clauseId}</div>
-            <div>Clause Title:   {result._clauseTitle}</div>
+            <div>Clause Id & Title:   {result._clauseIdAndTitle}</div>
             <div>Claim Description:   {result._claimDesc}</div>
             <div>Total Poject Duration:   {result._totalProjectDuration}</div>
             <div>Project Starting Date:   {date(result._projectStartingDate)}</div>
             <div>Project Completion Date:   {date(result._projectCompletetionDate)}</div>
             <div>Delay in days:   {result._delayInDays}</div>
             <div>Revised Project Completion Date:   {date(result._revisedProjectCompletionDate)}</div>
+            <div>Image: <a href={result._imgUrl} target="_blank">View Image</a></div>
+            <div>Comment Data:   {commentsData._comment}</div>
+            <div>Granted Extension: {remarksByclient._grantedExtension}</div>
+            <div>Completion Date After Grant: {date(remarksByclient._completetionDateAfterGrant)}</div>
+            <div>Awarded Money: {remarksByclient._awardedMoney}</div>
           </div>
         )}
       </div>
     </div>
+    </>
   )
 }
 

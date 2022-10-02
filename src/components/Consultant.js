@@ -3,10 +3,13 @@ import { useLocation } from "react-router-dom";
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../config';
 
+import { Loader } from '../Loader';
+
 import AddCommentCostClaim from "./Consultant/AddCommentCostClaim";
 import AddCommentDelayClaim from "./Consultant/AddCommentDelayClaim";
 
 const Consultant = () => {
+  const [loading, setLoading] = useState(true);
   const [showSideBar, setShowSideBar] = useState(false);
   const [showAddCommentDelay, setShowAddCommentDelay] = useState(false);
   const [showAddCommentCost, setShowAddCommentCost] = useState(false);
@@ -29,6 +32,7 @@ const Consultant = () => {
   const accountAddress = location.state.accountAddress
 
   const checkConsultantRole = async () => {
+    setLoading(true)
     var web3 = window.web3;
     web3 = new Web3(web3.currentProvider);
     const instance = new web3.eth.Contract(ABI, contractAddress);
@@ -52,6 +56,7 @@ const Consultant = () => {
     } else {
       setShowSideBar(true)
     }
+    setLoading(false);
   }
 
   return (
@@ -59,6 +64,7 @@ const Consultant = () => {
       <div className="App-header">
         {showSideBar && (
           <>
+                {loading && <Loader />}
             <header>
               <nav className="navbar">
                 <div className="accountAdd">

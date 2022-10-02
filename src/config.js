@@ -1,4 +1,4 @@
-export const contractAddress = "0x37276c0052f1e82319AF67Cdf1e4Ab6474ED9906";
+export const contractAddress = "0xC7517fF310F0ebE73C78Ca47Ed9b0fD7b09F2565";
 
 export const ABI = [
 	{
@@ -69,12 +69,7 @@ export const ABI = [
 			},
 			{
 				"internalType": "string",
-				"name": "clauseId",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "clauseTitle",
+				"name": "clauseIdAndTitle",
 				"type": "string"
 			},
 			{
@@ -90,6 +85,11 @@ export const ABI = [
 			{
 				"internalType": "string",
 				"name": "claimAmount",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "imgUrl",
 				"type": "string"
 			}
 		],
@@ -117,12 +117,7 @@ export const ABI = [
 			},
 			{
 				"internalType": "string",
-				"name": "clauseId",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "clauseTitle",
+				"name": "clauseIdAndTitile",
 				"type": "string"
 			},
 			{
@@ -154,6 +149,11 @@ export const ABI = [
 				"internalType": "uint256",
 				"name": "revisedProjectCompletionDate",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "imgUrl",
+				"type": "string"
 			}
 		],
 		"name": "addDelayRelatedClaim",
@@ -431,12 +431,7 @@ export const ABI = [
 			},
 			{
 				"internalType": "string",
-				"name": "_clauseId",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_clauseTitle",
+				"name": "_clauseIdAndTitle",
 				"type": "string"
 			},
 			{
@@ -452,6 +447,11 @@ export const ABI = [
 			{
 				"internalType": "string",
 				"name": "_claimAmount",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_imgUrl",
 				"type": "string"
 			}
 		],
@@ -490,12 +490,7 @@ export const ABI = [
 			},
 			{
 				"internalType": "string",
-				"name": "_clauseId",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_clauseTitle",
+				"name": "_clauseIdAndTitle",
 				"type": "string"
 			},
 			{
@@ -527,6 +522,11 @@ export const ABI = [
 				"internalType": "uint256",
 				"name": "_revisedProjectCompletionDate",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_imgUrl",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",

@@ -6,7 +6,6 @@ const Admin = () => {
   const location = useLocation();
   const accountAddress = location.state.accountAddress
 
-
   return (
     <>
       <div className="App-header">

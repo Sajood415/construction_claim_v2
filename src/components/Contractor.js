@@ -3,6 +3,9 @@ import { useLocation } from "react-router-dom";
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../config';
 
+import { Loader } from '../Loader';
+
+
 
 import AddProject from "./Contractor/AddProject";
 import FindDelayRelatedClaim from "./Contractor/FindDelayRelatedClaim";
@@ -10,6 +13,7 @@ import FindCostRelatedClaim from "./Contractor/FindCostRelatedClaim";
 
 
 const Contractor = () => {
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
   const [showDelayRelatedClaim, setshowDelayRelatedClaim] = useState(false);
@@ -53,16 +57,22 @@ const Contractor = () => {
     if (isContractor == account) {
       setShowSideBar(true)
       setShowAddForm(true)
+      if (!data) {
+        setShowSideBar(true)
+        setShowAddForm(true)
+      }
     } else {
       setShowSideBar(true)
-      // setShowAddForm(false)
-      // setshowCostRelatedClaim(false)
-      // setshowDelayRelatedClaim(false)
+      setShowAddForm(false)
+      setshowCostRelatedClaim(false)
+      setshowDelayRelatedClaim(false)
     }
+    setLoading(false)
   }
 
   return (
     <>
+      {loading && <Loader />}
       <div className="App-header">
         {showSideBar && (
           <>
@@ -75,7 +85,7 @@ const Contractor = () => {
               </nav>
             </header>
             <div className="sideBar">
-              <div className={['sideBarButtonWrap', showAddForm ? 'activeButton' : ''].join(' ')} tabIndex="1" onClick={showAddFormField}>Add Project</div>
+              <div className={['sideBarButtonWrap', showAddForm ? 'activeButton' : ''].join(' ')} tabIndex="1" onClick={showAddFormField}>Add Claim</div>
               <div className={['sideBarButtonWrap', showDelayRelatedClaim ? 'activeButton' : ''].join(' ')} tabIndex="2" onClick={showDelayRelatedClaimField}>Find Delay Related Claim</div>
               <div className={['sideBarButtonWrap', showCostRelatedClaim ? 'activeButton' : ''].join(' ')} tabIndex="3" onClick={showCostRelatedClaimField}>Find Cost Related Claim</div>
             </div>

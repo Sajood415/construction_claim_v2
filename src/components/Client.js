@@ -3,17 +3,16 @@ import { useLocation } from "react-router-dom";
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../config';
 
+import { Loader } from '../Loader';
+
 import AddClientRemarksCost from "./Client/AddClientRemarksCost";
 import AddClientRemarksDelay from "./Client/AddClientRemarksDelay";
 
 const Client = () => {
+  const [loading, setLoading] = useState(true);
   const [showSideBar, setShowSideBar] = useState(false);
   const [showAddRemarksDelay, setShowAddRemarksDelay] = useState(false);
   const [showAddRemarksCost, setShowAddRemarksCost] = useState(false);
-
-  useEffect(() => {
-
-  }, []);
 
   function handleShowAddRemarksDelay() {
     setShowAddRemarksDelay(true);
@@ -34,6 +33,7 @@ const Client = () => {
 
   const checkClientRole = async () => {
     var web3 = window.web3;
+    setLoading(true)
     web3 = new Web3(web3.currentProvider);
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
@@ -55,6 +55,7 @@ const Client = () => {
     } else {
       setShowSideBar(true)
     }
+    setLoading(false)
   }
 
   return (
@@ -62,6 +63,7 @@ const Client = () => {
       <div className="App-header">
         {showSideBar && (
           <>
+            {loading && <Loader />}
             <header>
               <nav className="navbar">
                 <div className="accountAdd">

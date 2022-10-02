@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../../config';
+import { Loader } from '../../Loader';
+
 
 const AddProject = () => {
+    const [loading, setLoading] = useState(true)
     const [claimNo, setClaimNo] = useState(0);
     const [projectName, setProjectName] = useState("");
     const [contractorAddress, setContractorAddress] = useState("");
@@ -39,10 +42,12 @@ const AddProject = () => {
         const claimOnGoing = await instance.methods._projectNumber().call({ from: account })
         console.log(claimOnGoing)
         setClaimNo(claimOnGoing);
+        setLoading(false)
     }
 
     const addProject = async (e) => {
         e.preventDefault();
+        setLoading(true)
         var web3 = window.web3;
         web3 = new Web3(web3.currentProvider);
         const instance = new web3.eth.Contract(ABI, contractAddress);
@@ -52,13 +57,20 @@ const AddProject = () => {
         const addprojectRes = await instance.methods.addProject(claimNo, projectName, contractorAddress, consultantAddress, clientAddress).send({ from: account })
         if (addprojectRes.status === true) {
             alert("Project has been added");
+            setProjectName("");
+            setContractorAddress("");
+            setConsultantAddress("");
+            setClientAddress("");
         } else {
             alert("Error. Check console");
         }
+        setLoading(false)
+
     }
 
     return (
         <>
+            {loading && <Loader />}
             <div className="formContainer">
                 <div className="form">
                     <form className='addProject'>
