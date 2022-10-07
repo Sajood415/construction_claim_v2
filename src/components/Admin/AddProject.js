@@ -6,7 +6,8 @@ import { Loader } from '../../Loader';
 
 const AddProject = () => {
     const [loading, setLoading] = useState(true)
-    const [claimNo, setClaimNo] = useState(0);
+    const [projectNum, setProjectNum] = useState(0);
+
     const [projectName, setProjectName] = useState("");
     const [contractorAddress, setContractorAddress] = useState("");
     const [consultantAddress, setConsultantAddress] = useState("");
@@ -14,7 +15,7 @@ const AddProject = () => {
 
     useEffect(() => {
         getCurrentProjectData();
-    }, [claimNo]);
+    }, [projectNum]);
 
     function handleProjectName(e) {
         setProjectName(e.target.value);
@@ -39,9 +40,8 @@ const AddProject = () => {
         console.log(instance)
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const claimOnGoing = await instance.methods._projectNumber().call({ from: account })
-        console.log(claimOnGoing)
-        setClaimNo(claimOnGoing);
+        const projectOnGoing = await instance.methods._projectNumber().call({ from: account })
+        setProjectNum(projectOnGoing);
         setLoading(false)
     }
 
@@ -54,7 +54,8 @@ const AddProject = () => {
         console.log(instance)
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addprojectRes = await instance.methods.addProject(claimNo, projectName, contractorAddress, consultantAddress, clientAddress).send({ from: account })
+        console.log(projectNum, projectName)
+        const addprojectRes = await instance.methods.addProject(projectNum, projectName, contractorAddress, consultantAddress, clientAddress).send({ from: account })
         if (addprojectRes.status === true) {
             alert("Project has been added");
             setProjectName("");
@@ -75,8 +76,8 @@ const AddProject = () => {
                 <div className="form">
                     <form className='addProject'>
                         <div className="input-container">
-                            <label>Claim No </label>
-                            <input type="number" name="claimNo" required value={claimNo} />
+                            <label>Project No </label>
+                            <input type="number" name="projectNo" required value={projectNum} />
                         </div>
                         <div className="input-container">
                             <label>Project Name </label>

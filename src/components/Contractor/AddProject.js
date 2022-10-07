@@ -16,13 +16,13 @@ const AddProject = () => {
     const [showCostRelatedClaim, setShowCostRelatedClaim] = useState(false);
 
     const [projectData, setProjectData] = useState({});
-    const [claimNo, setClaimNo] = useState("");
+    const [claimNo, setClaimNo] = useState(0); // same for both
 
     useEffect(() => {
-        getProjectNumber();
+        getClaimNumber();
     }, [showDelayRelatedClaim, showCostRelatedClaim]);
 
-    const getProjectNumber = async () => {
+    const getClaimNumber = async () => {
         var web3 = window.web3;
         setLoading(true)
         web3 = new Web3(web3.currentProvider);
@@ -30,18 +30,19 @@ const AddProject = () => {
         console.log(instance)
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const projectInitiatedNo = await instance.methods._initiatedProjectNumber().call({ from: account })
-        console.log("project intiated", projectInitiatedNo)
-        const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
-        console.log("data entered from admin", data)
-        const projectData = await instance.methods._projects(projectInitiatedNo).call({ from: account })
-        if (data) {
-            setClaimNo(projectInitiatedNo)
-            setProjectData(projectData)
+
+        const claimNumberGoing = await instance.methods._claimNumberGoing().call({ from: account }) // orignal claim going
+
+        const projectNumberGoing = await instance.methods._projectNumberTrack().call({ from: account })// to get project data duplicate value
+
+        const adminDatabool = await instance.methods.checkProjectData(projectNumberGoing).call({ from: account })
+        const adminData = await instance.methods._projects(projectNumberGoing).call({ from: account })
+        if (adminDatabool) {
+            setClaimNo(claimNumberGoing)
+            setProjectData(adminData)
             setShowData(true);
         } else {
             setShowData(false)
-            alert('No Project Initiated')
         }
         setLoading(false)
     }
@@ -133,13 +134,13 @@ const AddProject = () => {
     const submitCostData = async (e) => {
         e.preventDefault();
         setLoading(true)
-        console.log(dateCost, causeOfClaimCost, contractTypeCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost);
+        console.log(claimNo, dateCost, causeOfClaimCost, contractTypeCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost);
         var web3 = window.web3;
         web3 = new Web3(web3.currentProvider);
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addCostClaim = await instance.methods.addCostRelatedClaim(dateCost, causeOfClaimCost, contractTypeCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost).send({
+        const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, dateCost, causeOfClaimCost, contractTypeCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost).send({
             from: account
         });
         if (addCostClaim.status === true) {
@@ -167,7 +168,7 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addDelayClaim = await instance.methods.addDelayRelatedClaim(date, causeOfClaim, contracType, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay).send({
+        const addDelayClaim = await instance.methods.addDelayRelatedClaim(claimNo, date, causeOfClaim, contracType, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay).send({
             from: account
         }).catch(console.log);
         if (addDelayClaim.status === true) {
@@ -371,6 +372,14 @@ const AddProject = () => {
     } else if (selectedOption === "FIDIC Red Book 1999") {
         type = secondArr;
     } else if (selectedOption === "FIDIC Red Book 2017") {
+        type = thirdArr;
+    }
+
+    if (selectedOptionCost === "FIDIC Red Book 1987") {
+        type = firstArr;
+    } else if (selectedOptionCost === "FIDIC Red Book 1999") {
+        type = secondArr;
+    } else if (selectedOptionCost === "FIDIC Red Book 2017") {
         type = thirdArr;
     }
 

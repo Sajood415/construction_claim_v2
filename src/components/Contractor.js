@@ -50,19 +50,14 @@ const Contractor = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
-    const projectInitiatedNo = await instance.methods._reCommentNumber().call({ from: account });
-    const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
-    console.log("data entered from admin", data)
-    const isContractor = await instance.methods.hasRoleContractor(projectInitiatedNo).call({ from: account })
-    if (isContractor == account) {
+    const claimNumberGoing = await instance.methods._projectNumberTrack().call({ from: account })// to get 0th project
+    const projectData = await instance.methods._projects(claimNumberGoing).call({ from: account })
+    console.log(projectData)
+    if (projectData._contractorAddress == account) {
       setShowSideBar(true)
       setShowAddForm(true)
-      if (!data) {
-        setShowSideBar(true)
-        setShowAddForm(true)
-      }
     } else {
-      setShowSideBar(true)
+      setShowSideBar(false)
       setShowAddForm(false)
       setshowCostRelatedClaim(false)
       setshowDelayRelatedClaim(false)

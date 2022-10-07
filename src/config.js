@@ -1,4 +1,4 @@
-export const contractAddress = "0xC7517fF310F0ebE73C78Ca47Ed9b0fD7b09F2565";
+export const contractAddress = "0xC41f58b9Dc1E0C72e8712bCe8cAA50469B35d96c";
 
 export const ABI = [
 	{
@@ -58,6 +58,11 @@ export const ABI = [
 				"type": "uint256"
 			},
 			{
+				"internalType": "uint256",
+				"name": "claimNo",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "causeOfClaim",
 				"type": "string"
@@ -103,6 +108,11 @@ export const ABI = [
 			{
 				"internalType": "uint256",
 				"name": "date",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "claimNo",
 				"type": "uint256"
 			},
 			{
@@ -165,7 +175,7 @@ export const ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "claimNo",
+				"name": "projectNum",
 				"type": "uint256"
 			},
 			{
@@ -330,6 +340,32 @@ export const ABI = [
 	},
 	{
 		"inputs": [],
+		"name": "_claimNumberGoing",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "_claimNumberGoingTrack",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "_clientCommentNumber",
 		"outputs": [
 			{
@@ -343,6 +379,11 @@ export const ABI = [
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
 			{
 				"internalType": "uint256",
 				"name": "",
@@ -367,6 +408,11 @@ export const ABI = [
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
 			{
 				"internalType": "uint256",
 				"name": "",
@@ -405,6 +451,11 @@ export const ABI = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"name": "_costRelatedClaimprojectList",
@@ -413,6 +464,11 @@ export const ABI = [
 				"internalType": "bool",
 				"name": "_sett",
 				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_claimNo",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -464,6 +520,11 @@ export const ABI = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"name": "_delayRelatedClaimprojectList",
@@ -472,6 +533,11 @@ export const ABI = [
 				"internalType": "bool",
 				"name": "_sett",
 				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_claimNo",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -534,7 +600,7 @@ export const ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "_initiatedProjectNumber",
+		"name": "_projectNumber",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -547,7 +613,7 @@ export const ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "_projectNumber",
+		"name": "_projectNumberTrack",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -575,7 +641,7 @@ export const ABI = [
 			},
 			{
 				"internalType": "uint256",
-				"name": "_claimNo",
+				"name": "_projectNum",
 				"type": "uint256"
 			},
 			{
@@ -621,6 +687,11 @@ export const ABI = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"name": "_reComments",
@@ -653,7 +724,18 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectGoing",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "claimGoing",
+				"type": "uint256"
+			}
+		],
 		"name": "checkCommentCostData",
 		"outputs": [
 			{
@@ -666,7 +748,18 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectGoing",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "claimGoing",
+				"type": "uint256"
+			}
+		],
 		"name": "checkCommentData",
 		"outputs": [
 			{
@@ -679,7 +772,18 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectGoing",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "claimGoing",
+				"type": "uint256"
+			}
+		],
 		"name": "checkCommentDelayData",
 		"outputs": [
 			{
@@ -692,7 +796,18 @@ export const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "projectGoing",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "claimGoing",
+				"type": "uint256"
+			}
+		],
 		"name": "checkCostData",
 		"outputs": [
 			{
@@ -708,7 +823,12 @@ export const ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "projectNo",
+				"name": "projectGoing",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "claimGoing",
 				"type": "uint256"
 			}
 		],
@@ -727,7 +847,7 @@ export const ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "projectNo",
+				"name": "claimGoing",
 				"type": "uint256"
 			}
 		],
@@ -750,6 +870,19 @@ export const ABI = [
 				"internalType": "bytes32",
 				"name": "",
 				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getProjectNames",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",
@@ -802,7 +935,7 @@ export const ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "projectNo",
+				"name": "claimGoing",
 				"type": "uint256"
 			}
 		],
@@ -821,7 +954,7 @@ export const ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "projectNo",
+				"name": "claimGoing",
 				"type": "uint256"
 			}
 		],
@@ -840,7 +973,7 @@ export const ABI = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "projectNo",
+				"name": "claimGoing",
 				"type": "uint256"
 			}
 		],
