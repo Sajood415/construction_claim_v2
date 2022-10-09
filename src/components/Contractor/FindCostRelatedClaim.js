@@ -55,23 +55,16 @@ const FindCostRelatedClaim = () => {
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
 
-    // const projectDataNumber = await instance.methods._projectNumberTrack().call({ from: account }) // for custom search by 
-
-    console.log("selected ki value", selectedProjectName)
-    console.log("selected claim", claimNo)
-
+    var projectData = await instance.methods._projects(selectedProjectName).call({ from: account });
     selectedProjectName++
-    console.log("selected ki value after", selectedProjectName)
-
-    const projectData = await instance.methods._projects(selectedProjectName).call({ from: account }) // aik pecha ka pass kro
-    const claimData = await instance.methods._costRelatedClaimprojectList(selectedProjectName, claimNo).call({ from: account });
+    const claimData = await instance.methods._costRelatedClaimprojectList(selectedProjectName, claimNo).call({ from: account }); // incremented
     const commentsData = await instance.methods._reComments(selectedProjectName, claimNo).call({ from: account });
     const remarksByclient = await instance.methods._clientCommentsCost(selectedProjectName, claimNo).call({ from: account });
 
-    console.log(projectData)
+    // console.log(projectData)
     console.log("imp", claimData)
-    console.log(commentsData)
-    console.log(remarksByclient)
+    // console.log(commentsData)
+    // console.log(remarksByclient)
 
     if (claimData._causeOfClaim === "") {
       setShowData(false);
@@ -118,7 +111,7 @@ const FindCostRelatedClaim = () => {
           {showData && (
             <div className="serachFormFinalData" style={{ marginTop: '360px' }}>
               <h4>Data</h4>
-              <div>Claim No: {projectResult._claimNo}</div>
+              <div>Claim No: {result._claimNo}</div>
               <div>Project Name: {projectResult._projectName}</div>
               <div>Date:   {date(result._date)}</div>
               <div>Cause of Claim:   {result._causeOfClaim}</div>

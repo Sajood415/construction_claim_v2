@@ -134,13 +134,13 @@ const AddProject = () => {
     const submitCostData = async (e) => {
         e.preventDefault();
         setLoading(true)
-        console.log(claimNo, dateCost, causeOfClaimCost, contractTypeCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost);
+        console.log(claimNo, dateCost, causeOfClaimCost, selectedOptionCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost);
         var web3 = window.web3;
         web3 = new Web3(web3.currentProvider);
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, dateCost, causeOfClaimCost, contractTypeCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost).send({
+        const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, dateCost, causeOfClaimCost, selectedOptionCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost).send({
             from: account
         });
         if (addCostClaim.status === true) {
@@ -162,13 +162,13 @@ const AddProject = () => {
     const submitDelayData = async (e) => {
         e.preventDefault();
         setLoading(true)
-        console.log(date, causeOfClaim, contracType, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay);
+        console.log(date, causeOfClaim, selectedOption, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay);
         var web3 = window.web3;
         web3 = new Web3(web3.currentProvider);
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addDelayClaim = await instance.methods.addDelayRelatedClaim(claimNo, date, causeOfClaim, contracType, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay).send({
+        const addDelayClaim = await instance.methods.addDelayRelatedClaim(claimNo, date, causeOfClaim, selectedOption, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay).send({
             from: account
         }).catch(console.log);
         if (addDelayClaim.status === true) {

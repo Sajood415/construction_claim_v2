@@ -16,7 +16,7 @@ const Consultant = () => {
 
   useEffect(() => {
     checkConsultantRole();
-  }, [showAddCommentDelay, showAddCommentCost])
+  }, [])
 
   function handleShowAddCommentDelay() {
     setShowAddCommentDelay(true);
@@ -38,23 +38,26 @@ const Consultant = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
-    const projectInitiatedNo = await instance.methods._reCommentNumber().call({ from: account });
-    const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
-    console.log("data entered from admin", data)
-    const isConsultant = await instance.methods.hasRoleConsultant(projectInitiatedNo).call({ from: account })
-    console.log(isConsultant, account)
-    if (isConsultant == account) {
-      if (showAddCommentCost) {
-        setShowAddCommentDelay(false)
-        setShowSideBar(true)
-        setShowAddCommentCost(true)
-      } else {
-        setShowAddCommentDelay(true)
-        setShowSideBar(true)
-        setShowAddCommentCost(false)
-      }
-    } else {
+    // const projectInitiatedNo = await instance.methods._reCommentNumber().call({ from: account });
+    // const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
+    // console.log("data entered from admin", data)
+    // const isConsultant = await instance.methods.hasRoleConsultant(projectInitiatedNo).call({ from: account })
+    // console.log(isConsultant, account)
+    const claimNumberGoing = await instance.methods._projectNumberTrack().call({ from: account })// to get 0th project
+    const projectData = await instance.methods._projects(claimNumberGoing).call({ from: account })
+    console.log(claimNumberGoing)
+    console.log(projectData)
+    console.log(projectData._contractorAddress)
+    console.log(account)
+    
+    if (projectData._consultantAddress == account) {
+      setShowAddCommentDelay(false)
       setShowSideBar(true)
+      setShowAddCommentCost(false)
+    } else {
+      setShowAddCommentDelay(false)
+      setShowSideBar(false)
+      setShowAddCommentCost(false)
     }
     setLoading(false);
   }
