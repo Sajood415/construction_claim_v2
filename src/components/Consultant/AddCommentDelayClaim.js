@@ -79,6 +79,10 @@ const AddCommentDelayClaim = () => {
         if (commentsData._sett == false && projectData._consultantAddress == account) {
             setShowAddCommentButton(true);
         }
+
+        if (projectData._sett == false || claimData._sett == false) {
+            setShowAddCommentButton(false)
+        }
         setLoading(false)
     }
 

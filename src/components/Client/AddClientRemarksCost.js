@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Web3 from 'web3';
 import { contractAddress, ABI } from '../../config';
 
@@ -14,6 +14,33 @@ const AddClientRemarksCost = () => {
   const [clientRemarks, setClientRemarks] = useState({})
   const [showAddRemarksButton, setShowAddRemarksButton] = useState(false)
   const [awardedMoney, setAwardedMoney] = useState("");
+
+
+
+  const [projectNames, setProjectNames] = useState([]);
+  var [selectedProjectName, setSelectedProjectName] = useState(0);
+
+
+
+  useEffect(() => {
+    getprojectNames();
+  }, []);
+
+  const changeSelectOptionHandler = (event) => {
+    setSelectedProjectName(event.target.value);
+  };
+
+  const getprojectNames = async (e) => {
+    setLoading(true)
+    var web3 = window.web3;
+    web3 = new Web3(web3.currentProvider);
+    const instance = new web3.eth.Contract(ABI, contractAddress);
+    const userAccount = await web3.eth.getAccounts();
+    const account = userAccount[0];
+    const projectNamesList = await instance.methods.getProjectNames().call({ from: account });
+    setProjectNames(projectNamesList);
+    setLoading(false);
+  }
 
   function handleAwardedMoney(e) {
     setAwardedMoney(e.target.value)
@@ -32,13 +59,16 @@ const AddClientRemarksCost = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
-    const projectData = await instance.methods._projects(claimNo).call({ from: account })
-    const claimData = await instance.methods._costRelatedClaimprojectList(claimNo).call({ from: account });
-    const commentsData = await instance.methods._reComments(claimNo).call({ from: account });
-    const remarksByclient = await instance.methods._clientCommentsCost(claimNo).call({ from: account });
-    console.log(commentsData)
-    console.log(claimData)
-    console.log(remarksByclient)
+
+    var projectData = await instance.methods._projects(selectedProjectName).call({ from: account });
+    selectedProjectName++
+
+    const claimData = await instance.methods._costRelatedClaimprojectList(selectedProjectName, claimNo).call({ from: account });
+    const commentsData = await instance.methods._reComments(selectedProjectName, claimNo).call({ from: account });
+    const remarksByclient = await instance.methods._clientCommentsCost(selectedProjectName, claimNo).call({ from: account });
+    // console.log(commentsData)
+    // console.log(claimData)
+    // console.log(remarksByclient)
     if (claimData._sett == false && commentsData._sett == false) {
       setShowData(false);
       alert("No Data Found");
@@ -49,8 +79,11 @@ const AddClientRemarksCost = () => {
       setClientRemarks(remarksByclient)
       setProjectData(projectData)
     }
-    if (remarksByclient._sett == false) {
+    if (remarksByclient._sett == false && projectData._clientAddress == account) {
       setShowAddRemarksButton(true);
+    }
+    if (projectData._sett == false || claimData._sett == false || commentsData._sett == false) {
+      setShowAddRemarksButton(false)
     }
     setClaimNo("");
     setLoading(false)
@@ -88,6 +121,13 @@ const AddClientRemarksCost = () => {
           <div className="searchForm">
             <h4>Search Cost Claim</h4>
             <div className="input-container">
+              <label>Project No: </label>
+              <select onChange={changeSelectOptionHandler} value={selectedProjectName}>
+                {projectNames.map((item, index) => (
+                  <option key={index} value={index}>{item}</option>
+                ))
+                }
+              </select>
               <label>Claim no: </label>
               <input className="claimNo" type="number" name="claim no" required value={claimNo} onChange={handleClaimNo} />
             </div>
@@ -98,7 +138,7 @@ const AddClientRemarksCost = () => {
           {showData && (
             <div className="serachFormFinalData" style={{ marginTop: '360px' }}>
               <h4>Data</h4>
-              <div>Claim no:   {projectData._claimNo}</div>
+              <div>Claim no:   {result._claimNo}</div>
               <div>Project Name:   {projectData._projectName}</div>
               <div>Date:   {date(result._date)}</div>
               <div>Cause of Claim:   {result._causeOfClaim}</div>
@@ -111,7 +151,7 @@ const AddClientRemarksCost = () => {
               <div>Comment by Consultant: {comment._comment}</div>
               {!showAddRemarksButton && (
                 <>
-                  <div>Awarded Money: {clientRemarks}</div>
+                  <div>Awarded Money: {clientRemarks._awardedMoney}</div>
                 </>
               )}
               {showAddRemarksButton && (

@@ -29,7 +29,7 @@ const Client = () => {
 
   useEffect(() => {
     checkClientRole();
-  })
+  }, [])
 
   const checkClientRole = async () => {
     var web3 = window.web3;
@@ -38,22 +38,20 @@ const Client = () => {
     const instance = new web3.eth.Contract(ABI, contractAddress);
     const userAccount = await web3.eth.getAccounts();
     const account = userAccount[0];
-    const projectInitiatedNo = await instance.methods._clientCommentNumber().call({ from: account });
-    const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
-    console.log("data entered from admin", data)
-    const isClient = await instance.methods.hasRoleClient(projectInitiatedNo).call({ from: account })
-    if (isClient == account) {
-      if (showAddRemarksCost) {
-        setShowAddRemarksDelay(false)
-        setShowSideBar(true)
-        setShowAddRemarksCost(true)
-      } else {
-        setShowAddRemarksDelay(true)
-        setShowSideBar(true)
-        setShowAddRemarksCost(false)
-      }
-    } else {
+    const claimNumberGoing = await instance.methods._projectNumberTrack().call({ from: account })// to get 0th project
+    const projectData = await instance.methods._projects(claimNumberGoing).call({ from: account })
+    // const projectInitiatedNo = await instance.methods._clientCommentNumber().call({ from: account });
+    // const data = await instance.methods.checkProjectData(projectInitiatedNo).call({ from: account })
+    // console.log("data entered from admin", data)
+    // const isClient = await instance.methods.hasRoleClient(projectInitiatedNo).call({ from: account })
+    if (projectData._clientAddress == account) {
+      setShowAddRemarksDelay(false)
       setShowSideBar(true)
+      setShowAddRemarksCost(false)
+    } else {
+      setShowAddRemarksDelay(false)
+      setShowSideBar(false)
+      setShowAddRemarksCost(false)
     }
     setLoading(false)
   }
