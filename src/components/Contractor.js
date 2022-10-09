@@ -53,7 +53,7 @@ const Contractor = () => {
     const claimNumberGoing = await instance.methods._projectNumberTrack().call({ from: account })// to get 0th project
     const projectData = await instance.methods._projects(claimNumberGoing).call({ from: account })
     console.log(projectData)
-    if (projectData._contractorAddress == account) {
+    if (projectData._sett == true) {
       setShowSideBar(true)
       setShowAddForm(true)
     } else {

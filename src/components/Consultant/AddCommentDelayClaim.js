@@ -109,6 +109,9 @@ const AddCommentDelayClaim = () => {
     const date = (date) => {
         var d = new Date(parseInt(date, 10));
         var ds = d.toString('MM/dd/yy HH:mm:ss').substring(0, 15);
+        if (ds == 'Thu Jan 01 1970') {
+            ds = '';
+        }
         return ds
     }
 

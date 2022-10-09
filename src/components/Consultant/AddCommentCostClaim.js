@@ -66,7 +66,7 @@ const AddCommentDelayClaim = () => {
         console.log("comment data: ", commentsData)
         console.log("claim data", claimData)
         console.log("project data", projectData)
-    
+
 
         if (claimData._sett == false) {
             setShowData(false);
@@ -77,12 +77,12 @@ const AddCommentDelayClaim = () => {
             setComment(commentsData._comment); // if comment so set comment data
             setProjectData(projectData); // name and claim no
         }
-        if (commentsData._sett == false && projectData._consultantAddress == account ) {
+        if (commentsData._sett == false && projectData._consultantAddress == account) {
             setShowAddCommentButton(true);
         }
         if (projectData._sett == false || claimData._sett == false) {
             setShowAddCommentButton(false)
-          }
+        }
         setLoading(false)
     }
 
@@ -109,6 +109,9 @@ const AddCommentDelayClaim = () => {
     const date = (date) => {
         var d = new Date(parseInt(date, 10));
         var ds = d.toString('MM/dd/yy HH:mm:ss').substring(0, 15);
+        if (ds == 'Thu Jan 01 1970') {
+            ds = '';
+        }
         return ds
     }
 

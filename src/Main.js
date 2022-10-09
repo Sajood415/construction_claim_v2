@@ -78,6 +78,11 @@ const Main = () => {
                             {accountAddress}
                         </div>
                     </nav>
+                    <nav className='searchClaim'>
+                        <div className='roleButton'>
+                        <Link className='mainRoleButton' style={{ color: 'white' }} to="/searchClaim" state={{ accountAddress }}>Search Claim</Link>
+                        </div>
+                    </nav>
 
                     <div className='body'>
                         <div className='roleButton'>

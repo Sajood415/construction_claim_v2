@@ -8,7 +8,7 @@ import { Loader } from '../../Loader';
 
 const FindCostRelatedClaim = () => {
   const [loading, setLoading] = useState(false);
-  const [claimNo, setClaimNo] = useState(0);
+  const [claimNo, setClaimNo] = useState("");
   const [showData, setShowData] = useState(false);
   const [result, setResult] = useState({});
   const [commentsData, setCommentsData] = useState({});
@@ -82,6 +82,9 @@ const FindCostRelatedClaim = () => {
   const date = (date) => {
     var d = new Date(parseInt(date, 10));
     var ds = d.toString('MM/dd/yy HH:mm:ss').substring(0, 15);
+    if (ds == 'Thu Jan 01 1970') {
+      ds = '';
+    }
     return ds
   }
 

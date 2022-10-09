@@ -55,8 +55,8 @@ const FindDelayRelatedClaim = () => {
 
     const projectData = await instance.methods._projects(selectedProjectName).call({ from: account })
     selectedProjectName++;
-    const claimData = await instance.methods._delayRelatedClaimprojectList(selectedProjectName,claimNo).call({ from: account });
-    const commentsData = await instance.methods._reComments(selectedProjectName,claimNo).call({ from: account });
+    const claimData = await instance.methods._delayRelatedClaimprojectList(selectedProjectName, claimNo).call({ from: account });
+    const commentsData = await instance.methods._reComments(selectedProjectName, claimNo).call({ from: account });
     const remarksByclient = await instance.methods._clientCommentsDelay(selectedProjectName, claimNo).call({ from: account });
 
 
@@ -78,6 +78,9 @@ const FindDelayRelatedClaim = () => {
   const date = (date) => {
     var d = new Date(parseInt(date, 10));
     var ds = d.toString('MM/dd/yy HH:mm:ss').substring(0, 15);
+    if (ds == 'Thu Jan 01 1970') {
+      ds = '';
+    }
     return ds
   }
 
