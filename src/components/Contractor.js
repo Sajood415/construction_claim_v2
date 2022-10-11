@@ -53,11 +53,12 @@ const Contractor = () => {
     const claimNumberGoing = await instance.methods._projectNumberTrack().call({ from: account })// to get 0th project
     const projectData = await instance.methods._projects(claimNumberGoing).call({ from: account })
     console.log(projectData)
-    if (projectData._sett == true) {
+
+    if (projectData._sett == true && projectData._contractorAddress == account) {
       setShowSideBar(true)
       setShowAddForm(true)
     } else {
-      setShowSideBar(false)
+      setShowSideBar(true)
       setShowAddForm(false)
       setshowCostRelatedClaim(false)
       setshowDelayRelatedClaim(false)
@@ -80,7 +81,7 @@ const Contractor = () => {
               </nav>
             </header>
             <div className="sideBar">
-              <div className={['sideBarButtonWrap', showAddForm ? 'activeButton' : ''].join(' ')} tabIndex="1" onClick={showAddFormField}>Add Claim</div>
+              {showAddForm &&(<div className={['sideBarButtonWrap', showAddForm ? 'activeButton' : ''].join(' ')} tabIndex="1" onClick={showAddFormField}>Add Claim</div>)}
               <div className={['sideBarButtonWrap', showDelayRelatedClaim ? 'activeButton' : ''].join(' ')} tabIndex="2" onClick={showDelayRelatedClaimField}>Find Delay Related Claim</div>
               <div className={['sideBarButtonWrap', showCostRelatedClaim ? 'activeButton' : ''].join(' ')} tabIndex="3" onClick={showCostRelatedClaimField}>Find Cost Related Claim</div>
             </div>
