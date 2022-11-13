@@ -122,6 +122,7 @@ const FindDelayRelatedClaim = () => {
               <div>Project Completion Date:   {date(result._projectCompletetionDate)}</div>
               <div>Delay in days:   {result._delayInDays}</div>
               <div>Revised Project Completion Date:   {date(result._revisedProjectCompletionDate)}</div>
+              <div>Reference Name:   {result._refName}</div>
               <div>Image: <a href={result._imgUrl} target="_blank">View Image</a></div>
               <div>Comment Data:   {commentsData._comment}</div>
               <div>Granted Extension: {remarksByclient._grantedExtension}</div>

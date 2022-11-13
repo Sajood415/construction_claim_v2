@@ -123,6 +123,7 @@ const FindCostRelatedClaim = () => {
               <div>Claim Description:   {result._claimDesc}</div>
               <div>Total Poject Cost:   {result._totalProjectCost}</div>
               <div>Claim Amount:   {result._claimAmount}</div>
+              <div>Reference Name:   {result._refName}</div>
               <div>Image: <a href={result._imgUrl} target="_blank">View Image</a></div>
               <div>Comment:   {commentsData._comment}</div>
               <div>Awarded Money: {remarksByclient._clientRemarks}</div>

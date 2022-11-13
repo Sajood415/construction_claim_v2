@@ -62,6 +62,8 @@ const AddProject = () => {
     const [claimAmount, setClaimAmount] = useState("");
     const [imageCost, setImageCost] = useState("");
     const [imageSelectedCost, setImageSelectedCost] = useState({});
+    const [refNameCost, setRefNameCost] = useState("");
+
 
     function handleCauseOfClaimCost(e) {
         setCauseOfClaimCost(e.target.value);
@@ -83,6 +85,10 @@ const AddProject = () => {
         setClaimAmount(e.target.value);
     }
 
+    function handleRefNameCost(e) {
+        setRefNameCost(e.target.value);
+    }
+
 
     // Delay Related Claim
     const [date, setDate] = useState(null);
@@ -97,7 +103,7 @@ const AddProject = () => {
     const [revisedProjectCompletionDate, setRevisedProjectCompletionDate] = useState(null);
     const [imageDelay, setImageDelay] = useState("");
     const [imageSelectedDelay, setImageSelectedDelay] = useState({});
-
+    const [refNameDelay, setRefNameDelay] = useState("");
 
 
     const handleCauseOfClaim = (e) => {
@@ -120,6 +126,10 @@ const AddProject = () => {
         setDelayInDays(e.target.value);
     };
 
+    const handleRefNameDelay = (e) => {
+        setRefNameDelay(e.target.value);
+    };
+
 
     function selectDelayRelated() {
         setShowDelayRelatedClaim(true);
@@ -140,7 +150,7 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, dateCost, causeOfClaimCost, selectedOptionCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost).send({
+        const addCostClaim = await instance.methods.addCostRelatedClaim(claimNo, dateCost, causeOfClaimCost, selectedOptionCost, clauseIdAndTitleCost, claimDescCost, projectCost, claimAmount, imageCost, refNameCost).send({
             from: account
         });
         if (addCostClaim.status === true) {
@@ -168,7 +178,7 @@ const AddProject = () => {
         const instance = new web3.eth.Contract(ABI, contractAddress);
         const userAccount = await web3.eth.getAccounts();
         const account = userAccount[0];
-        const addDelayClaim = await instance.methods.addDelayRelatedClaim(claimNo, date, causeOfClaim, selectedOption, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay).send({
+        const addDelayClaim = await instance.methods.addDelayRelatedClaim(claimNo, date, causeOfClaim, selectedOption, clauseIdAndTitle, claimDesc, totalProjectDuration, projectStartingDate, projectCompletionDate, delayInDays, revisedProjectCompletionDate, imageDelay, refNameDelay).send({
             from: account
         }).catch(console.log);
         if (addDelayClaim.status === true) {
@@ -453,6 +463,10 @@ const AddProject = () => {
                             }} showYearDropdown />
                         </div>
                         <div className="input-container">
+                            <label>Reference Name </label>
+                            <input type="text" name="referncename" required value={refNameDelay} onChange={handleRefNameDelay} />
+                        </div>
+                        <div className="input-container">
                             <label>Upload Image </label>
                             <input type='file' onChange={e => setImageSelectedDelay(e.target.files[0])} />
                             <input type="submit" value="Upload Image" onClick={uploadImageDelay} />
@@ -510,6 +524,10 @@ const AddProject = () => {
                         <div className="input-container">
                             <label>Claim Amount </label>
                             <input type="text" name="claimAmount" value={claimAmount} onChange={handleClaimAmount} required />
+                        </div>
+                        <div className="input-container">
+                            <label>Reference Name </label>
+                            <input type="text" name="referncename" required value={refNameCost} onChange={handleRefNameCost} />
                         </div>
                         <div className="input-container">
                             <label>Upload Image </label>

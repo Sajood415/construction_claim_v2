@@ -166,6 +166,7 @@ const AddClientRemarksDelay = () => {
               <div>Project Completion Date:   {date(result._projectCompletetionDate)}</div>
               <div>Delay in days:   {result._delayInDays}</div>
               <div>Revised Project Completion Date:   {date(result._revisedProjectCompletionDate)}</div>
+              <div>Reference Name:   {result._refName}</div>
               <div>Image: <a href={result._imgUrl} target="_blank">View Image</a></div>
               <div>Comment by Consultant: {comment._comment}</div>
               {!showAddRemarksButton && (

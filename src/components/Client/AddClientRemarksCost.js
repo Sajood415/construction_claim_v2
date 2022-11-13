@@ -151,6 +151,7 @@ const AddClientRemarksCost = () => {
               <div>Total Project Cost:   {result._totalProjectCost}</div>
               <div>Claim Amount:   {result._claimAmount}</div>
               <div>Image: <a href={result._imgUrl} target="_blank">View Image</a></div>
+              <div>Reference Name:   {result._refName}</div>
               <div>Comment by Consultant: {comment._comment}</div>
               {!showAddRemarksButton && (
                 <>
