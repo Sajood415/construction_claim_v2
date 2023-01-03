@@ -1,4 +1,4 @@
-export const contractAddress = "0x6F9969354eb2a37684F91Df413f9f7EE1033892b";
+export const contractAddress = "0xEA7206409b3c862d2e8d0F896208a979CBeba19A";
 
 export const ABI = [
 	{
@@ -96,6 +96,11 @@ export const ABI = [
 				"internalType": "string",
 				"name": "imgUrl",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "refName",
+				"type": "string"
 			}
 		],
 		"name": "addCostRelatedClaim",
@@ -163,6 +168,11 @@ export const ABI = [
 			{
 				"internalType": "string",
 				"name": "imgUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "refName",
 				"type": "string"
 			}
 		],
@@ -509,6 +519,11 @@ export const ABI = [
 				"internalType": "string",
 				"name": "_imgUrl",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_refName",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -592,6 +607,11 @@ export const ABI = [
 			{
 				"internalType": "string",
 				"name": "_imgUrl",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_refName",
 				"type": "string"
 			}
 		],

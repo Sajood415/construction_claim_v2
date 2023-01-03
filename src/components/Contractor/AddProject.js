@@ -205,7 +205,7 @@ const AddProject = () => {
         const formData = new FormData()
         formData.append("file", imageSelectedDelay)
         formData.append("upload_preset", "construction_claim")
-        axios.post("https://api.cloudinary.com/v1_1/drsqh0aog/image/upload", formData).then(res => {
+        axios.post("https://api.cloudinary.com/v1_1/dqwj94uo7/image/upload", formData).then(res => {
             setImageDelay(res.data.secure_url)
             setLoading(false)
             alert("Image Uploaded")
@@ -219,7 +219,7 @@ const AddProject = () => {
         formData.append("file", imageSelectedCost)
         formData.append("upload_preset", "construction_claim")
         console.log(formData)
-        axios.post("https://api.cloudinary.com/v1_1/drsqh0aog/image/upload", formData).then(res => {
+        axios.post("https://api.cloudinary.com/v1_1/dqwj94uo7/image/upload", formData).then(res => {
             setImageCost(res.data.secure_url)
             setLoading(false)
             alert("Image Uploaded")
